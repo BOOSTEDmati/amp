@@ -7,36 +7,31 @@ const height = window.innerHeight;
 canvas.width = width;
 canvas.height = height;
 
-let point = new Point(new Vector2d(200,300),100);
-let mouseVector = new Vector2d(0,0);
-let difference = new Vector2d(0,0);
+let A = new Point(new Vector2d(300,200),15, true);
+let B = new Point(new Vector2d(500,300),15, true);
 
+A.draw(context);
+B.draw(context);
 
-point.draw(context);
-
-window.addEventListener('click',(evt)=>{
-  mouseVector.dx = evt.clientX;
-  mouseVector.dy = evt.clientY;
-  console.log(mouseVector);
-  console.log(point.position);
-  difference.differenceVector(point.position,mouseVector);
-  console.log(difference);
-  console.log(difference.magnitude);
-  if (difference.magnitude<= point.radius){
-    // point.position.dx += 50;
-    // point.position.dy += 50;
-    point.changecolor();
-    point.draw(context);
-  }
-//  console.log(evt.clientX,evt.clientY);
-})
+let l = new LinearFunction(1/3, 133.3);
+l.defineLineByTwoPoints(A,B);
 
 
 
-// let a = new Vector2d(1,2);
-// let b = new Vector2d(3,4);
-//
-// let c = new Vector2d(0,0);
-// c.differenceVector(a,b);
-//
-// console.log(c);
+function animate(){
+  requestAnimationFrame(animate);
+    context.clearRect(0, 0, width, height);
+
+    for (let x = 0; x < width; x+=10){
+      console.log(x,l.calcY(x))
+
+      let P = new Point(new Vector2d(x,l.calcY(x)),5);
+      P.draw(context);
+    }
+
+    A.draw(context);
+    B.draw(context);
+
+}
+
+animate();
